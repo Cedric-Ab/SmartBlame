@@ -10,8 +10,16 @@ class MetricsPrinter(
         fileCategories: FileCategories
     ) : this(Metrics(history, fileCategories), fileCategories)
 
-    val divider = "----------------------------------------------------"
+    val divider = "----------------------------------------------------------------------------------------------------"
     val thickDivider = divider.replace('-', '#')
+
+    fun introduceNewStatistic(title: String) {
+        println()
+        println(thickDivider)
+        println()
+        println(title)
+        println()
+    }
 
     fun author() {
         fileCategories.categories
@@ -38,6 +46,8 @@ class MetricsPrinter(
     fun commits() {
         val authors = metrics.history.authors.authorsByMail.values
         val longestName = authors.maxOfOrNull { it.name.length }
+
+        introduceNewStatistic("Displaying amount of commits per author")
 
         authors
             .associateWith(metrics::numCommitsFromAuthor)

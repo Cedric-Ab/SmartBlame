@@ -170,7 +170,7 @@ class BasicBlame(
     // Output
     // -----------------------------
     private fun printSummary(report: BlameReport) {
-        printFilesByLength(report)
+//        printFilesByLength(report)
         statsByAutor(report)
     }
 

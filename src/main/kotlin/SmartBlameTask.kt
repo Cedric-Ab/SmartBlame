@@ -43,6 +43,10 @@ abstract class SmartBlameTask : DefaultTask() {
         val metricsPrinter = MetricsPrinter.aggregate(repoDir, fileCategories)
 
 //        metricsPrinter.author()
+
+        metricsPrinter.introduceNewStatistic(
+            "Displaying per author metrics for ${FileCategory("java", "*.java").name} files"
+        )
         metricsPrinter.author(FileCategory("java", "*.java"))
 //        metricsPrinter.authorDetailed(history.authors.authorsByMail.values.first(), FileCategory("java", "*.java"))
 
@@ -50,12 +54,11 @@ abstract class SmartBlameTask : DefaultTask() {
 //            .forEach { (key, value) -> simplePrint("$key: $value") }
 //        metrics.authorChurn().forEach { (key, value) -> println("$key: $value") }
 
-        println()
-
         metricsPrinter.commits()
 
-        println()
-
+        metricsPrinter.introduceNewStatistic(
+            "Displaying basic static blame for ${FileCategory("java", "*.java").name} files"
+        )
         BasicBlame(sourceDir.get().asFile.toPath()).basicBlame(repoDir)
     }
 }
