@@ -31,7 +31,7 @@ class MetricsPrinter(
     }
 
     fun author(category: FileCategory) {
-        val authors = metrics.history.authors.authorsByMail.values
+        val authors = metrics.history.authors
         val allFiles = metrics.history.getAllFiles()
 
         val exampleAcceptedFiles = allFiles
@@ -46,7 +46,7 @@ class MetricsPrinter(
     }
 
     fun commits() {
-        val authors = metrics.history.authors.authorsByMail.values
+        val authors = metrics.history.authors
         val longestName = authors.maxOfOrNull { it.name.length }
 
         introduceNewStatistic("Displaying amount of commits per author")
