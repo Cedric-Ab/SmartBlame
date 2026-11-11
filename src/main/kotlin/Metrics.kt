@@ -81,8 +81,7 @@ class Metrics(
             .mapValues { it.value.size }
 
     fun commitsFromAuthor(author: Author): List<Commit> =
-        history.commits.commitsByHash.values
-            .filter { it.authorEmail == author.mail }
+        history.commits.filter { it.authorEmail == author.mail }
 
     fun numCommitsFromAuthor(author: Author): Int = commitsFromAuthor(author).size
 

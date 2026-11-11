@@ -3,13 +3,12 @@
 import data.Author
 import data.Authors
 import data.Commit
-import data.Commits
 import org.eclipse.jgit.api.Git
 import java.nio.file.Path
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
-fun mineCommits(repoDir: Path): Pair<Commits, Authors> {
+fun mineCommits(repoDir: Path): Pair<List<Commit>, Authors> {
 
     val authorsByEmail = mutableMapOf<String, Author>()
     val commits = mutableListOf<Commit>()
@@ -47,5 +46,5 @@ fun mineCommits(repoDir: Path): Pair<Commits, Authors> {
         }
     }
 
-    return Commits(commits) to Authors(authorsByEmail)
+    return commits to Authors(authorsByEmail)
 }

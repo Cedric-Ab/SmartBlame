@@ -1,16 +1,17 @@
 package data
 
+import data.Commit.Companion.get
 import java.nio.file.Path
 
 data class RepositoryHistory(
     val authors: Authors,
-    val commits: Commits,
+    val commits: List<Commit>,
     val renames: List<RenameEvent>,
     val lineChanges: List<LineChange>,
     val lineOrigins: Set<LineOrigin>,
 ) {
     constructor(
-        commitMining: Pair<Commits, Authors>,
+        commitMining: Pair<List<Commit>, Authors>,
         renames: List<RenameEvent>,
         lineChanges: List<LineChange>,
         lineOrigins: Set<LineOrigin>,

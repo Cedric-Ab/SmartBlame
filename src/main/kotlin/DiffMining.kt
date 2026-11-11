@@ -1,5 +1,6 @@
 import data.ChangeType
-import data.Commits
+import data.Commit
+import data.Commit.Companion.get
 import data.LineChange
 import data.RenameEvent
 import org.eclipse.jgit.diff.DiffAlgorithm
@@ -15,7 +16,7 @@ import org.eclipse.jgit.treewalk.CanonicalTreeParser
 import org.eclipse.jgit.util.io.DisabledOutputStream
 import java.nio.file.Path
 
-fun getAllLineChanges(repoDir: Path, commits: Commits): List<LineChange> {
+fun getAllLineChanges(repoDir: Path, commits: List<Commit>): List<LineChange> {
     val repository: Repository = FileRepositoryBuilder()
         .findGitDir(repoDir.toFile())
         .build()
