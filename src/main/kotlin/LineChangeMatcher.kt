@@ -1,3 +1,7 @@
+import data.ChangeType
+import data.LineChange
+import data.LineOrigin
+import data.RenameEvent
 import java.nio.file.Path
 
 fun matchLineChanges(

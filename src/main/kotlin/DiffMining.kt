@@ -1,3 +1,7 @@
+import data.ChangeType
+import data.Commits
+import data.LineChange
+import data.RenameEvent
 import org.eclipse.jgit.diff.DiffAlgorithm
 import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.diff.DiffFormatter

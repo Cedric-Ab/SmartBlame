@@ -1,8 +1,6 @@
-@file:OptIn(ExperimentalTime::class)
+package data
 
 import java.nio.file.Path
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 
 data class RepositoryHistory(
     val authors: Authors,
@@ -25,42 +23,6 @@ data class RepositoryHistory(
     fun getAllFiles(): Set<Path> =
         lineChanges.map { it.file }.distinct().toSet()
 }
-
-data class Authors(val authorsByMail: Map<String, Author>) {
-    constructor(authors: List<Author>) : this(authors.associateBy { it.mail })
-
-    fun get(mail: String?): Author? {
-        if (mail == null) return null
-        return authorsByMail[mail]
-    }
-
-    fun get(commit: Commit?): Author? {
-        return get(commit?.authorEmail)
-    }
-}
-
-data class Author(
-    val name: String,
-    val mail: String
-)
-
-data class Commits(val commitsByHash: Map<String, Commit>) {
-    constructor(commits: List<Commit>) : this(commits.associateBy { it.commitHash })
-
-    fun get(hash: String?): Commit? {
-        if (hash == null) return null
-        return commitsByHash[hash]
-    }
-}
-
-data class Commit(
-    val commitHash: String,
-    val commitSequenceNumber: Long,
-    val parentCommitHashes: List<String>,
-    val authorEmail: String,
-    val timestamp: Instant,
-    val message: String
-)
 
 enum class ChangeType {
     ADD, REMOVE

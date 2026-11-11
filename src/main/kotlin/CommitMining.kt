@@ -1,5 +1,9 @@
 @file:OptIn(ExperimentalTime::class)
 
+import data.Author
+import data.Authors
+import data.Commit
+import data.Commits
 import org.eclipse.jgit.api.Git
 import java.nio.file.Path
 import kotlin.time.ExperimentalTime
