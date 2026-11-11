@@ -31,7 +31,7 @@ gradlePlugin {
     plugins {
         create("smartBlame") {
             id = "ch.cedricab.smartblame"
-            implementationClass = "SmartBlamePlugin"
+            implementationClass = "plugin.SmartBlamePlugin"
             displayName = "Smart Blame Plugin"
             description = "Analyzes git blame information"
         }

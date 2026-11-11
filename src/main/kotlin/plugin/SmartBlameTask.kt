@@ -1,3 +1,8 @@
+package plugin
+
+import BasicBlame
+import common.FileCategories
+import common.FileCategory
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.provider.Property

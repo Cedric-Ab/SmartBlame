@@ -1,3 +1,5 @@
+import common.FileCategories
+import common.FileCategory
 import java.nio.file.Path
 import kotlin.io.path.extension
 
