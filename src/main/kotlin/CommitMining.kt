@@ -1,14 +1,13 @@
 @file:OptIn(ExperimentalTime::class)
 
 import data.Author
-import data.Authors
 import data.Commit
 import org.eclipse.jgit.api.Git
 import java.nio.file.Path
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
-fun mineCommits(repoDir: Path): Pair<List<Commit>, Authors> {
+fun mineCommits(repoDir: Path): Pair<List<Commit>, List<Author>> {
 
     val authorsByEmail = mutableMapOf<String, Author>()
     val commits = mutableListOf<Commit>()
@@ -24,7 +23,7 @@ fun mineCommits(repoDir: Path): Pair<List<Commit>, Authors> {
             val authorIdent = rev.authorIdent
             val email = authorIdent.emailAddress
 
-            val author = authorsByEmail.getOrPut(email) {
+            authorsByEmail.computeIfAbsent(email) {
                 Author(
                     name = authorIdent.name,
                     mail = email
@@ -46,5 +45,5 @@ fun mineCommits(repoDir: Path): Pair<List<Commit>, Authors> {
         }
     }
 
-    return commits to Authors(authorsByEmail)
+    return commits to (authorsByEmail.values).toList()
 }

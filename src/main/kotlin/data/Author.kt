@@ -1,19 +1,17 @@
 package data
 
-data class Authors(val authorsByMail: Map<String, Author>) {
-    constructor(authors: List<Author>) : this(authors.associateBy { it.mail })
-
-    fun get(mail: String?): Author? {
-        if (mail == null) return null
-        return authorsByMail[mail]
-    }
-
-    fun get(commit: Commit?): Author? {
-        return get(commit?.authorEmail)
-    }
-}
-
 data class Author(
     val name: String,
     val mail: String
-)
+) {
+    companion object {
+        fun List<Author>.get(mail: String?): Author? {
+            if (mail == null) return null
+            return this.firstOrNull { it.mail == mail }
+        }
+
+        fun List<Author>.get(commit: Commit?): Author? {
+            return get(commit?.authorEmail)
+        }
+    }
+}
