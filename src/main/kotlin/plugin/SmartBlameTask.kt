@@ -1,6 +1,7 @@
 package plugin
 
 import BasicBlame
+import MetricsPrinter
 import common.FileCategories
 import common.FileCategory
 import org.gradle.api.DefaultTask
@@ -32,16 +33,15 @@ abstract class SmartBlameTask : DefaultTask() {
         val repoDir = project.rootDir.toPath()
 
         val fileCategories = FileCategories(
-            mapOf(
-                FileCategory("github", "contains github") to { p -> p.startsWith(".github") },
-                FileCategory("gradle", "contains gradle") to { p ->
-                    p.fileName.invariantSeparatorsPathString.contains("gradle", true)
-                },
-                FileCategory("java", "*.java") to FileCategory.byExtension(listOf("java")),
-                FileCategory("kotlin", "*.kt / *.kts") to FileCategory.byExtension(listOf("kt", "kts")),
-                FileCategory("documentation", "*.md / *.puml") to FileCategory.byExtension(listOf("md", "puml")),
-                FileCategory("resources", "*.css / *.fxml") to FileCategory.byExtension(listOf("css", "fxml")),
-                FileCategory("ignored", "*.svg") to FileCategory.byExtension(listOf("svg")),
+            listOf(
+                FileCategory("github", "contains github") { p -> p.startsWith(".github") },
+                FileCategory("gradle", "contains gradle")
+                { p -> p.fileName.invariantSeparatorsPathString.contains("gradle", true) },
+                FileCategory("java", listOf("java")),
+                FileCategory("kotlin", listOf("kt", "kts")),
+                FileCategory("documentation", listOf("md", "puml")),
+                FileCategory("resources", listOf("css", "fxml")),
+                FileCategory("ignored", listOf("svg")),
             )
         )
 
@@ -50,9 +50,9 @@ abstract class SmartBlameTask : DefaultTask() {
 //        metricsPrinter.author()
 
         metricsPrinter.introduceNewStatistic(
-            "Displaying per author metrics for ${FileCategory("java", "*.java").name} files"
+            "Displaying per author metrics for java files"
         )
-        metricsPrinter.author(FileCategory("java", "*.java"))
+        metricsPrinter.author(fileCategories.byNameOrThrow("java"))
 //        metricsPrinter.authorDetailed(history.authors.authorsByMail.values.first(), FileCategory("java", "*.java"))
 
 //        metrics.fileCommitSpread()
@@ -62,7 +62,7 @@ abstract class SmartBlameTask : DefaultTask() {
         metricsPrinter.commits()
 
         metricsPrinter.introduceNewStatistic(
-            "Displaying basic static blame for ${FileCategory("java", "*.java").name} files"
+            "Displaying basic static blame for java files"
         )
         BasicBlame(sourceDir.get().asFile.toPath()).basicBlame(repoDir)
     }

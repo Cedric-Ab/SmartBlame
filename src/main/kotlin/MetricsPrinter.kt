@@ -25,8 +25,7 @@ class MetricsPrinter(
 
     fun author() {
         fileCategories.categories
-            .filter { !it.key.name.contains("ignore") }
-            .keys
+            .filter { !it.name.contains("ignore") }
             .forEach(::author)
     }
 

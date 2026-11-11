@@ -3,29 +3,36 @@ package common
 import java.nio.file.Path
 import kotlin.io.path.extension
 
-class FileCategories {
-    val categories: Map<FileCategory, (Path) -> Boolean>
-
-    constructor(categories: Map<FileCategory, (Path) -> Boolean> = mapOf()) {
-        this.categories = categories + mapOf(FileCategory.other to { _ -> true })
-    }
+class FileCategories(
+    categories: List<FileCategory>
+) {
+    private var _categories: List<FileCategory> = categories
+    val categories: List<FileCategory>
+        get() = _categories.plus(listOf(FileCategory.other))
 
     fun categoryOf(path: Path): FileCategory {
-        return categories
-            .filter { it.value(path) }
-            .map { it.key }
-            .first()
+        return _categories.firstOrNull { it.applies(path) } ?: FileCategory.other
+    }
+
+    fun byName(name: String): FileCategory? {
+        return categories.firstOrNull { it.name == name }
+    }
+
+    fun byNameOrThrow(name: String): FileCategory {
+        return byName(name) ?: throw IllegalArgumentException("File category '$name' not found")
     }
 }
 
 data class FileCategory(
     val name: String,
     val description: String,
+    internal val applies: ((Path) -> Boolean),
 ) {
-    companion object {
-        fun byExtension(extensions: List<String>) =
-            { p: Path -> extensions.contains(p.extension) }
+    constructor(name: String, extensions: List<String>) :
+            this(name, extensions.joinToString(" / ") { "*.$it" }, { extensions.contains(it.extension) })
 
+    companion object {
         val other = FileCategory("other", "all other files")
+        { throw IllegalArgumentException("File category 'other' should not be used for matching files") }
     }
 }
